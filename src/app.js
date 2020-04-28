@@ -2,10 +2,8 @@ const express = require('express');
 
 const app = express();
 
-app.get('/', (req, res) => {
-  res.send({
-    message: 'Welcome to my jokes API!',
-  });
-});
+const controllers = require('./controllers.js')
+
+app.use('/', controllers.mainController);
 
 module.exports = app;

@@ -6,7 +6,7 @@ it('GET / should respond with a welcome message', done => {
     .get('/')
     .then(res => {
       expect(res.statusCode).toEqual(200);
-      expect(res.body.message).toEqual('Hello world!');
+      expect(res.body.message).toEqual('Welcome to my jokes API!');
       done();
     });
 });
