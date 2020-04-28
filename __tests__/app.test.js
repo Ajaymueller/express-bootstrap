@@ -1,7 +1,7 @@
 const request = require('supertest');
 const app = require('../src/app');
 
-it('GET / should respond with Hello world!', done => {
+it('GET / should respond with a welcome message', done => {
   request(app)
     .get('/')
     .then(res => {
