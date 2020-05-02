@@ -1,5 +1,6 @@
 const request = require('request');
 const axios = require('axios');
+const regeneratorRuntime = require('regenerator-runtime');
 
 exports.mainController = (req, res) => {
   res.send({
@@ -28,8 +29,7 @@ exports.personalJokeController = async (req, res) => {
 
     return res.send({ personalJoke: response.data.value });
   } catch (error) {
-    // eslint-disable-next-line
-      console.log(error);
+    res.status(error.statusCode).send({ error: error.message });
   }
 };
 
