@@ -38,6 +38,5 @@ exports.randomJokeController = (req, res) =>
     .get('https://api.icndb.com/jokes/random?exclude=[explicit]')
     .then(response => res.send({ randomJoke: response.data.value }))
     .catch(error => {
-      // eslint-disable-next-line
-console.log(error);
+      res.status(error.statusCode).send({ error: error.message });
     });

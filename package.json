@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/runtime": "^7.9.6",
     "axios": "^0.19.2",
     "axois": "0.0.1-security",
     "express": "^4.17.1",
