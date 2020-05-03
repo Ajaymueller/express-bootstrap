@@ -2,12 +2,6 @@ const request = require('request');
 const axios = require('axios');
 const regeneratorRuntime = require('regenerator-runtime');
 
-exports.mainController = (req, res) => {
-  res.send({
-    message: 'Welcome to my jokes API!',
-  });
-};
-
 exports.jokesController = (req, res) =>
   request('https://api.icndb.com/jokes', (error, jokesApiResponse) => {
     if (error) {
