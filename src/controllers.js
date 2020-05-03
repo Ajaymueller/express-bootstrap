@@ -29,7 +29,7 @@ exports.personalJokeController = async (req, res) => {
 
     return res.send({ personalJoke: response.data.value });
   } catch (error) {
-    res.status(error.statusCode).send({ error: error.message });
+    return res.status(error.statusCode).send({ error: error.message });
   }
 };
 
@@ -37,6 +37,4 @@ exports.randomJokeController = (req, res) =>
   axios
     .get('https://api.icndb.com/jokes/random?exclude=[explicit]')
     .then(response => res.send({ randomJoke: response.data.value }))
-    .catch(error => {
-      res.status(error.statusCode).send({ error: error.message });
-    });
+    .catch(error => res.status(error.statusCode).send({ error: error.message }));

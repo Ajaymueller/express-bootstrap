@@ -96,16 +96,16 @@ describe('GET/ joke/random', () => {
         done();
       });
   });
-  it('should response with an error message if something goes wrong', done => {
+  it('should respond with an error message if something goes wrong', done => {
     nock('https://api.icndb.com')
       .get('/jokes/random')
       .query({ exclude: '[explicit]' })
-      .replyWithError({ statusCode: 500, message: 'huge error' });
+      .replyWithError({ statusCode: 404, message: 'Unknown resource' });
     request(app)
       .get('/jokes/random')
       .then(res => {
-        expect(res.statusCode).toEqual(500);
-        expect(res.body.error).toEqual('huge error');
+        expect(res.statusCode).toEqual(404);
+        expect(res.body.error).toEqual('Unknown resource');
         done();
       });
   });
@@ -126,24 +126,18 @@ describe('GET joke/random/personal', () => {
       .query({ exclude: '[explicit]', firstName: 'manchester', lastName: 'codes' })
       .reply(200, mockResponse);
 
-    request(app)
-      .get('/joke/personal/manchester/codes')
-      .then(res => {
-        expect(res.statusCode).toEqual(200);
-        expect(res.body.personalJoke).toEqual(mockResponse.value);
-      });
+    const res = await request(app).get('/jokes/random/manchester/codes');
+    expect(res.statusCode).toEqual(200);
+    expect(res.body.personalJoke).toEqual(mockResponse.value);
   });
-  it('should respond with an error if something goes wrong', () => {
+  it('should respond with an error if something goes wrong', async () => {
     nock('https://api.icndb.com')
       .get('/jokes/random')
       .query({ exclude: '[explicit]', firstName: 'manchester', lastName: 'codes' })
-      .replyWithError({ statusCode: 500, message: 'huge error' });
+      .replyWithError({ statusCode: 500, message: 'Bad request' });
 
-    request(app)
-      .get('/jokes/random')
-      .then(res => {
-        expect(res.statusCode).toEqual(500);
-        expect(res.body.error).toEqual('huge error');
-      });
+    const res = await request(app).get('/jokes/random/manchester/codes');
+    expect(res.statusCode).toEqual(500);
+    expect(res.body.error).toEqual('Bad request');
   });
 });
