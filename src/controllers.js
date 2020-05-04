@@ -1,18 +1,14 @@
-const request = require('request');
 const axios = require('axios');
 const regeneratorRuntime = require('regenerator-runtime');
 
-exports.jokesController = (req, res) =>
-  request('https://api.icndb.com/jokes', (error, jokesApiResponse) => {
-    if (error) {
-      // eslint-disable-next-line
-      return res.status(error.statusCode).send({ error: error.message });
-    }
-
-    const parsedResponse = JSON.parse(jokesApiResponse.body);
-
-    res.send({ jokes: parsedResponse.value });
-  });
+exports.jokesController = async (req, res) => {
+  try {
+    const response = await axios.get('https://api.icndb.com/jokes');
+    return res.send({ jokes: response.data.value });
+  } catch (error) {
+    return res.status(error.statusCode).send({ error: error.message });
+  }
+};
 
 exports.personalJokeController = async (req, res) => {
   const { first, last } = req.params;
