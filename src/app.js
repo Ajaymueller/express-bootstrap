@@ -1,13 +1,8 @@
 const express = require('express');
-const {
-  mainController,
-  jokesController,
-  randomJokeController,
-  personalJokeController,
-} = require('./controllers');
+const { jokesController, randomJokeController, personalJokeController } = require('./controllers');
 
 const app = express();
-app.use(express.static('public'))
+app.use(express.static('public'));
 
 app.get('/jokes', jokesController);
 
