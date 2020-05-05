@@ -23,8 +23,12 @@ exports.personalJokeController = async (req, res) => {
   }
 };
 
-exports.randomJokeController = (req, res) =>
-  axios
-    .get('https://api.icndb.com/jokes/random?exclude=[explicit]')
-    .then(response => res.send({ randomJoke: response.data.value }))
-    .catch(error => res.status(error.statusCode).send({ error: error.message }));
+exports.randomJokeController = async (req, res) => {
+  try {
+    const response = await axios.get('https://api.icndb.com/jokes/random?exclude=[explicit]')
+
+    return res.send({ randomJoke: response.data.value });
+  } catch (error) {
+    return res.status(error.statusCode).send({ error: error.message });
+  }
+};

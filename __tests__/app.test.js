@@ -42,32 +42,25 @@ describe('GET /jokes', () => {
 });
 
 describe('GET/ joke/random', () => {
-  it('should respond with a random joke message', done => {
+  it('should respond with a random joke message', async () => {
     nock('https://api.icndb.com')
       .get('/jokes/random')
       .query({ exclude: '[explicit]' })
       .reply(200, mockRandomJokeResponse);
 
-    request(app)
-      .get('/jokes/random')
-      .then(res => {
-        expect(res.statusCode).toEqual(200);
-        expect(res.body.randomJoke).toEqual(mockRandomJokeResponse.value);
-        done();
-      });
+    const res = await request(app).get('/jokes/random');
+    expect(res.statusCode).toEqual(200);
+    expect(res.body.randomJoke).toEqual(mockRandomJokeResponse.value);
   });
-  it('should respond with an error message if something goes wrong', done => {
+  it('should respond with an error message if something goes wrong', async () => {
     nock('https://api.icndb.com')
       .get('/jokes/random')
       .query({ exclude: '[explicit]' })
       .replyWithError({ statusCode: 404, message: 'Unknown resource' });
-    request(app)
-      .get('/jokes/random')
-      .then(res => {
-        expect(res.statusCode).toEqual(404);
-        expect(res.body.error).toEqual('Unknown resource');
-        done();
-      });
+
+    const res = await request(app).get('/jokes/random');
+    expect(res.statusCode).toEqual(404);
+    expect(res.body.error).toEqual('Unknown resource');
   });
 });
 
